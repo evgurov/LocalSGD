@@ -38,7 +38,7 @@ class MinibatchSGD:
         total_round_y: torch.Tensor,
     ) -> None:
 
-        output = self.model(total_round_X)
+        output = self.model(total_round_X).squeeze(1)
         loss = self.loss_fn(output, total_round_y)
         self.optimizer.zero_grad()
         loss.backward()
