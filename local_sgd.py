@@ -81,7 +81,7 @@ class LocalSGD:
     # "Evaluate" main model on train dataset
     # =============================================================================================
             
-    def _evaluate_main_model(self) -> float:
+    def evaluate_model(self) -> float:
         total_loss = 0.0
         with torch.no_grad():
             for X, y in self.loader:
@@ -96,10 +96,7 @@ class LocalSGD:
     # Main train loop
     # =============================================================================================
 
-    def train(
-        self,
-        num_epochs: int,
-    ) -> None:
+    def train(self, num_epochs: int) -> None:
         wandb.init(
             name = f"LocalSGD: M={self.num_workers}, K={self.K}"
         )
@@ -108,10 +105,13 @@ class LocalSGD:
             for total_round_X, total_round_y in tqdm(
                 self.loader, desc=f"Epoch {epoch_num + 1}"
             ):
+                current_loss = self.evaluate_model()
+                wandb.log({"loss": current_loss})
+
                 self._training_round(total_round_X, total_round_y)
                 self._average_models()
-                current_loss = self._evaluate_main_model()
                 
-                wandb.log({"loss": current_loss})
+        current_loss = self.evaluate_model()
+        wandb.log({"loss": current_loss})
                 
         wandb.finish()

@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import TensorDataset
 
 
-def create_dummy_dataset(num_samples: int, num_features: int):
+def create_dummy_dataset(num_samples: int, num_features: int) -> TensorDataset:
     X = torch.zeros((num_samples, num_features))
     for i in range(1, num_features + 1):
         std_dev = (10 / i**2)**0.5

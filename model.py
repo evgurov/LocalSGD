@@ -6,6 +6,7 @@ class LinearModel(nn.Module):
         super().__init__()
         self.layers = nn.Sequential(
             nn.Linear(input_size, 1, bias=bias),
+            nn.Sigmoid()
         )
     
     def forward(self, x):
