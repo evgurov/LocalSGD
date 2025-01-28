@@ -1,3 +1,4 @@
 .lsgd-venv
 wandb
 __pycache__
+mnist
